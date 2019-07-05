@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Car extends Model
+class CarModel extends Model
 {
     protected $table = 'car_model';
     protected $fillable = ['name'];

@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\CarModel;
+use App\ProductKnowladgeCategory;
 use Illuminate\Http\Request;
 
-class CarController extends Controller
+class ProductKnowledgeCategoriesController extends Controller
 {
     public function index () {
-        $cars = CarModel::all();
+        $PKcategories = ProductKnowladgeCategory::all();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $cars
+                "data" => $PKcategories
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $car = CarModel::find($request->id);
+        $PKcategory = ProductKnowladgeCategory::find($request->id);
         return response()->json(
             [
                 "status" => 200,
-                "data" => $car
+                "data" => $PKcategory
             ],
             200
         );

@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProblemCategories extends Model
+class ProductKnowladgeCategory extends Model
 {
-    protected $table = 'problem_categories';
+    protected $table = 'product_knowladge_categories';
     protected $fillable = ['name'];
 }

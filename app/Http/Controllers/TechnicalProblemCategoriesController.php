@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\CarModel;
+use App\TechnicalProblemCategory;
 use Illuminate\Http\Request;
 
-class CarController extends Controller
+class TechnicalProblemCategoriesController extends Controller
 {
     public function index () {
-        $cars = CarModel::all();
+        $TechnicalCategories = TechnicalProblemCategory::all();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $cars
+                "data" => $TechnicalCategories
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $car = CarModel::find($request->id);
+        $TechnicalCategory = TechnicalProblemCategory::find($request->id);
         return response()->json(
             [
                 "status" => 200,
-                "data" => $car
+                "data" => $TechnicalCategory
             ],
             200
         );

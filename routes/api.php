@@ -19,6 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // cars
 Route::get('cars','CarController@index')->name('api.car.index');
 Route::get('car/{id}','CarController@view')->name('api.car.view');
+Route::post('car','CarController@create')->name('api.car.create');
+Route::put('car/{id}','CarController@update')->name('api.car.update');
+Route::delete('car/{id}','CarController@delete')->name('api.car.delete');
 
 // product knowledge categories
 Route::get('product-knowledge-categories','ProductKnowledgeCategoriesController@index')->name('api.productKnowledgeCategories.index');

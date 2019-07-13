@@ -79,3 +79,9 @@ Route::get('road-condition/{id}','RoadConditionController@view')->name('api.Road
 Route::post('road-condition','RoadConditionController@create')->name('api.RoadConditionController.create');
 Route::put('road-condition/{id}','RoadConditionController@update')->name('api.RoadConditionController.update');
 Route::delete('road-condition/{id}','RoadConditionController@delete')->name('api.RoadConditionController.delete');
+
+Route::get('diagnoses','DiagnoseDataController@index')->name('api.DiagnoseDataController.index');
+Route::get('diagnose/{id}','DiagnoseDataController@view')->name('api.DiagnoseDataController.view');
+Route::post('diagnose','DiagnoseDataController@create')->name('api.DiagnoseDataController.create');
+Route::put('diagnose/{id}','DiagnoseDataController@update')->name('api.DiagnoseDataController.update');
+Route::delete('diagnose/{id}','DiagnoseDataController@delete')->name('api.DiagnoseDataController.delete');

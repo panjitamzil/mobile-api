@@ -2,37 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductKnowladgeCategory;
+use App\ProductKnowladge;
 use Illuminate\Http\Request;
 
-class ProductKnowledgeCategoriesController extends Controller
+class ProductKnowladgeController extends Controller
 {
     public function index () {
-        $PKcategories = ProductKnowladgeCategory::all();
+        $pk = ProductKnowladge::all();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategories
+                "data" => $pk
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $PKcategory = ProductKnowladgeCategory::find($request->id);
+        $pk = ProductKnowladge::find($request->id);
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategory
+                "data" => $pk
             ],
             200
         );
     }
 
     public function create (Request $request) {
-        $PKcategory = new ProductKnowladgeCategory;
-        $PKcategory->name = $request->name;
-        $PKcategory->save();
+        $pk = new ProductKnowladge;
+        $pk->car_model_id = $request->car_model_id;
+        $pk->product_knowlagde_category_id = $request->product_knowlagde_category_id;
+        $pk->filename = $request->filename;
+        $pk->save();
 
         return response()->json(
             [
@@ -44,11 +46,15 @@ class ProductKnowledgeCategoriesController extends Controller
     }
 
     public function update (Request $request, $id) {
-        $name = $request->name;
+        $car_model_id = $request->car_model_id;
+        $product_knowlagde_category_id = $request->product_knowlagde_category_id;
+        $filename = $request->filename;
 
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->name = $name;
-        $PKcategory->save();
+        $pk = ProductKnowladge::find($id);
+        $pk->car_model_id = $car_model_id;
+        $pk->product_knowlagde_category_id = $product_knowlagde_category_id;
+        $pk->filename = $filename;
+        $pk->save();
 
         return response()->json(
             [
@@ -60,8 +66,8 @@ class ProductKnowledgeCategoriesController extends Controller
     }
 
     public function delete ($id) {
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->delete();
+        $pk = ProductKnowladge::find($id);
+        $pk->delete();
 
         return response()->json(
             [

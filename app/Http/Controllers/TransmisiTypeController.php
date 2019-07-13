@@ -2,37 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductKnowladgeCategory;
+use App\TransmisiType;
 use Illuminate\Http\Request;
 
-class ProductKnowledgeCategoriesController extends Controller
+class TransmisiTypeController extends Controller
 {
     public function index () {
-        $PKcategories = ProductKnowladgeCategory::all();
+        $transmisi = TransmisiType::all();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategories
+                "data" => $transmisi
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $PKcategory = ProductKnowladgeCategory::find($request->id);
+        $transmisi = TransmisiType::find($request->id);
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategory
+                "data" => $transmisi
             ],
             200
         );
     }
 
     public function create (Request $request) {
-        $PKcategory = new ProductKnowladgeCategory;
-        $PKcategory->name = $request->name;
-        $PKcategory->save();
+        $transmisi = new TransmisiType;
+        $transmisi->name = $request->name;
+        $transmisi->save();
 
         return response()->json(
             [
@@ -46,9 +46,9 @@ class ProductKnowledgeCategoriesController extends Controller
     public function update (Request $request, $id) {
         $name = $request->name;
 
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->name = $name;
-        $PKcategory->save();
+        $transmisi = TransmisiType::find($id);
+        $transmisi->name = $name;
+        $transmisi->save();
 
         return response()->json(
             [
@@ -60,8 +60,8 @@ class ProductKnowledgeCategoriesController extends Controller
     }
 
     public function delete ($id) {
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->delete();
+        $transmisi = TransmisiType::find($id);
+        $transmisi->delete();
 
         return response()->json(
             [

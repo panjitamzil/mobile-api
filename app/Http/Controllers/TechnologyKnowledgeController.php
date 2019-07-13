@@ -2,37 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductKnowladgeCategory;
+use App\TechnologyKnowledge;
 use Illuminate\Http\Request;
 
-class ProductKnowledgeCategoriesController extends Controller
+class TechnologyKnowledgeController extends Controller
 {
     public function index () {
-        $PKcategories = ProductKnowladgeCategory::all();
+        $tk = TechnologyKnowledge::all();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategories
+                "data" => $tk
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $PKcategory = ProductKnowladgeCategory::find($request->id);
+        $tk = TechnologyKnowledge::find($request->id);
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategory
+                "data" => $tk
             ],
             200
         );
     }
 
     public function create (Request $request) {
-        $PKcategory = new ProductKnowladgeCategory;
-        $PKcategory->name = $request->name;
-        $PKcategory->save();
+        $tk = new TechnologyKnowledge;
+        $tk->technology_knowledge_category_id = $request->technology_knowledge_category_id;
+        $tk->filename = $request->filename;
+        $tk->save();
 
         return response()->json(
             [
@@ -44,11 +45,13 @@ class ProductKnowledgeCategoriesController extends Controller
     }
 
     public function update (Request $request, $id) {
-        $name = $request->name;
+        $technology_knowledge_category_id = $request->technology_knowledge_category_id;
+        $filename = $request->filename;
 
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->name = $name;
-        $PKcategory->save();
+        $tk = TechnologyKnowledge::find($id);
+        $tk->technology_knowledge_category_id = $technology_knowledge_category_id;
+        $tk->filename = $filename;
+        $tk->save();
 
         return response()->json(
             [
@@ -60,8 +63,8 @@ class ProductKnowledgeCategoriesController extends Controller
     }
 
     public function delete ($id) {
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->delete();
+        $tk = TechnologyKnowledge::find($id);
+        $tk->delete();
 
         return response()->json(
             [

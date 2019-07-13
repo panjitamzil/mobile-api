@@ -2,37 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductKnowladgeCategory;
+use App\RoadCondition;
 use Illuminate\Http\Request;
 
-class ProductKnowledgeCategoriesController extends Controller
+class RoadConditionController extends Controller
 {
     public function index () {
-        $PKcategories = ProductKnowladgeCategory::all();
+        $roadCondition = RoadCondition::all();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategories
+                "data" => $roadCondition
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $PKcategory = ProductKnowladgeCategory::find($request->id);
+        $roadCondition = RoadCondition::find($request->id);
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategory
+                "data" => $roadCondition
             ],
             200
         );
     }
 
     public function create (Request $request) {
-        $PKcategory = new ProductKnowladgeCategory;
-        $PKcategory->name = $request->name;
-        $PKcategory->save();
+        $roadCondition = new RoadCondition;
+        $roadCondition->name = $request->name;
+        $roadCondition->save();
 
         return response()->json(
             [
@@ -46,9 +46,9 @@ class ProductKnowledgeCategoriesController extends Controller
     public function update (Request $request, $id) {
         $name = $request->name;
 
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->name = $name;
-        $PKcategory->save();
+        $roadCondition = RoadCondition::find($id);
+        $roadCondition->name = $name;
+        $roadCondition->save();
 
         return response()->json(
             [
@@ -60,8 +60,8 @@ class ProductKnowledgeCategoriesController extends Controller
     }
 
     public function delete ($id) {
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->delete();
+        $roadCondition = RoadCondition::find($id);
+        $roadCondition->delete();
 
         return response()->json(
             [

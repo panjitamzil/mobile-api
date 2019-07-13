@@ -2,37 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductKnowladgeCategory;
+use App\ProblemComponent;
 use Illuminate\Http\Request;
 
-class ProductKnowledgeCategoriesController extends Controller
+class ProblemComponentController extends Controller
 {
     public function index () {
-        $PKcategories = ProductKnowladgeCategory::all();
+        $pc = ProblemComponent::all();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategories
+                "data" => $pc
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $PKcategory = ProductKnowladgeCategory::find($request->id);
+        $pc = ProblemComponent::find($request->id);
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategory
+                "data" => $pc
             ],
             200
         );
     }
 
     public function create (Request $request) {
-        $PKcategory = new ProductKnowladgeCategory;
-        $PKcategory->name = $request->name;
-        $PKcategory->save();
+        $pc = new ProblemComponent;
+        $pc->name = $request->name;
+        $pc->save();
 
         return response()->json(
             [
@@ -46,9 +46,9 @@ class ProductKnowledgeCategoriesController extends Controller
     public function update (Request $request, $id) {
         $name = $request->name;
 
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->name = $name;
-        $PKcategory->save();
+        $pc = ProblemComponent::find($id);
+        $pc->name = $name;
+        $pc->save();
 
         return response()->json(
             [
@@ -60,8 +60,8 @@ class ProductKnowledgeCategoriesController extends Controller
     }
 
     public function delete ($id) {
-        $PKcategory = ProductKnowladgeCategory::find($id);
-        $PKcategory->delete();
+        $pc = ProblemComponent::find($id);
+        $pc->delete();
 
         return response()->json(
             [

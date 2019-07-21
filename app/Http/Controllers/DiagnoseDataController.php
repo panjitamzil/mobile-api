@@ -60,8 +60,12 @@ class DiagnoseDataController extends Controller
         $diagnose->foreman = $request->foreman;
         $diagnose->video_link = $request->video_link;
         $diagnose->need_dtr = $request->need_dtr;
-        $diagnose->photo = $request->photo;
+        $diagnose->photo = $request->file('photo');
         $diagnose->save();
+
+        //Move Uploaded File
+        $destinationPath = 'uploads';
+        $diagnose->photo->move($destinationPath,$diagnose->photo->getClientOriginalName());
 
         return response()->json(
             [

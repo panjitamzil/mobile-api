@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\RoadCondition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RoadConditionController extends Controller
 {
@@ -30,6 +31,25 @@ class RoadConditionController extends Controller
     }
 
     public function create (Request $request) {
+        $validator = Validator::make($request->json()->all(), [
+          'name' => ['required', 'string', 'max:255', 'unique:road_condition']
+        ]);
+
+        if($validator->fails()){
+          $messages = [];
+          foreach ($validator->errors()->getMessages() as $item) {
+            array_push($messages, $item[0]);
+          }
+
+          return response()->json(
+            [
+                "status" => 503,
+                "message" => $messages
+            ],
+            503
+          );
+        }
+
         $roadCondition = new RoadCondition;
         $roadCondition->name = $request->name;
         $roadCondition->save();

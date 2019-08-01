@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\TechnicalKnowledge;
 use Illuminate\Http\Request;
+use App\Http\Resources\TechnicalKnowledgeJSON;
+use App\Http\Resources\TechnicalKnowledgeCollection;
 
 class TechnicalKnowledgeController extends Controller
 {
     public function index () {
-        $tk = TechnicalKnowledge::all();
+        $TK = TechnicalKnowledge::with('carModel')->with('technical_problem_category')->get(); 
         return response()->json(
             [
                 "status" => 200,
-                "data" => $tk
+                "data" => TechnicalKnowledgeCollection::collection($TK)
             ] ,
             200
         );
@@ -23,7 +25,7 @@ class TechnicalKnowledgeController extends Controller
         return response()->json(
             [
                 "status" => 200,
-                "data" => $tk
+                "data" => new TechnicalKnowledgeJSON($tk)
             ],
             200
         );

@@ -4,26 +4,29 @@ namespace App\Http\Controllers;
 
 use App\ProductKnowladge;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProductKnowledgeCollection;
+use App\Http\Resources\ProductKnowledge as ProductKnowledgeJSON;
+
 
 class ProductKnowladgeController extends Controller
 {
     public function index () {
-        $pk = ProductKnowladge::all();
+        $PK = ProductKnowladge::with('carModel')->get();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $pk
+                "data" => ProductKnowledgeCollection::collection($PK)
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $pk = ProductKnowladge::find($request->id);
+        $PK = ProductKnowladge::find($request->id);
         return response()->json(
             [
                 "status" => 200,
-                "data" => $pk
+                "data" => new ProductKnowledgeJSON($PK)
             ],
             200
         );

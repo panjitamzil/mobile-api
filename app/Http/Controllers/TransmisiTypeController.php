@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\TransmisiType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TransmisiTypeController extends Controller
 {
@@ -30,6 +31,25 @@ class TransmisiTypeController extends Controller
     }
 
     public function create (Request $request) {
+        $validator = Validator::make($request->json()->all(), [
+          'name' => ['required', 'string', 'max:255', 'unique:transmisi_type']
+        ]);
+
+        if($validator->fails()){
+          $messages = [];
+          foreach ($validator->errors()->getMessages() as $item) {
+            array_push($messages, $item[0]);
+          }
+
+          return response()->json(
+            [
+                "status" => 503,
+                "message" => $messages
+            ],
+            503
+          );
+        }
+
         $transmisi = new TransmisiType;
         $transmisi->name = $request->name;
         $transmisi->save();

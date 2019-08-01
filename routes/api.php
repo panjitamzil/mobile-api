@@ -26,6 +26,7 @@ Route::delete('car/{id}','CarController@delete')->name('api.car.delete');
 // product knowledge categories
 Route::get('product-knowledge-categories','ProductKnowledgeCategoriesController@index')->name('api.productKnowledgeCategories.index');
 Route::get('product-knowledge-category/{id}','ProductKnowledgeCategoriesController@view')->name('api.productKnowledgeCategories.view');
+Route::get('product-knowledge-category/{id}/products','ProductKnowledgeCategoriesController@view_products')->name('api.productKnowledgeCategories.view.product');
 Route::post('product-knowledge-category','ProductKnowledgeCategoriesController@create')->name('api.productKnowledgeCategories.create');
 Route::put('product-knowledge-category/{id}','ProductKnowledgeCategoriesController@update')->name('api.productKnowledgeCategories.update');
 Route::delete('product-knowledge-category/{id}','ProductKnowledgeCategoriesController@delete')->name('api.productKnowledgeCategories.delete');
@@ -85,3 +86,5 @@ Route::get('diagnose/{id}','DiagnoseDataController@view')->name('api.DiagnoseDat
 Route::post('diagnose','DiagnoseDataController@create')->name('api.DiagnoseDataController.create');
 Route::put('diagnose/{id}','DiagnoseDataController@update')->name('api.DiagnoseDataController.update');
 Route::delete('diagnose/{id}','DiagnoseDataController@delete')->name('api.DiagnoseDataController.delete');
+
+Route::get('/micro/component-complaint','MicroController@componentComplaint');

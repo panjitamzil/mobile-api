@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductKnowladgeCategory;
+use App\ProductKnowladge;
 use Illuminate\Http\Request;
+use App\ProductKnowladgeCategory;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\ProductKnowledgeCollection;
 
 class ProductKnowledgeCategoriesController extends Controller
 {
@@ -30,6 +33,25 @@ class ProductKnowledgeCategoriesController extends Controller
     }
 
     public function create (Request $request) {
+        $validator = Validator::make($request->json()->all(), [
+          'name' => ['required', 'string', 'max:255', 'unique:product_knowladge_categories']
+        ]);
+
+        if($validator->fails()){
+          $messages = [];
+          foreach ($validator->errors()->getMessages() as $item) {
+            array_push($messages, $item[0]);
+          }
+
+          return response()->json(
+            [
+                "status" => 503,
+                "message" => $messages
+            ],
+            503
+          );
+        }
+
         $PKcategory = new ProductKnowladgeCategory;
         $PKcategory->name = $request->name;
         $PKcategory->save();
@@ -70,5 +92,17 @@ class ProductKnowledgeCategoriesController extends Controller
             ],
             204
         );
+    }
+
+    public function view_products ($category_id) {
+      $PK = ProductKnowladge::where('product_knowlagde_category_id', $category_id)->with('carModel')->get();
+
+      return response()->json(
+        [
+            "status" => 200,
+            "data" => ProductKnowledgeCollection::collection($PK)
+        ],
+        200
+      );
     }
 }

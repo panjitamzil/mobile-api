@@ -32,8 +32,12 @@ class TechnologyKnowledgeController extends Controller
     public function create (Request $request) {
         $tk = new TechnologyKnowledge;
         $tk->technology_knowledge_category_id = $request->technology_knowledge_category_id;
-        $tk->filename = $request->filename;
+        $tk->filename = $request->file('filename');
         $tk->save();
+
+        //Move Uploaded File
+        $destinationPath = 'uploads';
+        $tk->filename->move($destinationPath,$tk->filename->getClientOriginalName());
 
         return response()->json(
             [
@@ -46,12 +50,16 @@ class TechnologyKnowledgeController extends Controller
 
     public function update (Request $request, $id) {
         $technology_knowledge_category_id = $request->technology_knowledge_category_id;
-        $filename = $request->filename;
+        $filename = $request->file('filename');
 
         $tk = TechnologyKnowledge::find($id);
         $tk->technology_knowledge_category_id = $technology_knowledge_category_id;
         $tk->filename = $filename;
         $tk->save();
+
+        //Move Uploaded File
+        $destinationPath = 'uploads';
+        $tk->filename->move($destinationPath,$tk->filename->getClientOriginalName());
 
         return response()->json(
             [

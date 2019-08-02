@@ -36,8 +36,12 @@ class ProductKnowladgeController extends Controller
         $pk = new ProductKnowladge;
         $pk->car_model_id = $request->car_model_id;
         $pk->product_knowlagde_category_id = $request->product_knowlagde_category_id;
-        $pk->filename = $request->filename;
+        $pk->filename = $request->file('filename');
         $pk->save();
+
+        //Move Uploaded File
+        $destinationPath = 'uploads';
+        $pk->filename->move($destinationPath,$pk->filename->getClientOriginalName());
 
         return response()->json(
             [
@@ -51,13 +55,17 @@ class ProductKnowladgeController extends Controller
     public function update (Request $request, $id) {
         $car_model_id = $request->car_model_id;
         $product_knowlagde_category_id = $request->product_knowlagde_category_id;
-        $filename = $request->filename;
+        $filename = $request->file('filename');
 
         $pk = ProductKnowladge::find($id);
         $pk->car_model_id = $car_model_id;
         $pk->product_knowlagde_category_id = $product_knowlagde_category_id;
         $pk->filename = $filename;
         $pk->save();
+
+        //Move Uploaded File
+        $destinationPath = 'uploads';
+        $pk->filename->move($destinationPath,$pk->filename->getClientOriginalName());
 
         return response()->json(
             [

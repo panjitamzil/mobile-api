@@ -10,7 +10,7 @@ use App\Http\Resources\TechnicalKnowledgeCollection;
 class TechnicalKnowledgeController extends Controller
 {
     public function index () {
-        $TK = TechnicalKnowledge::with('carModel')->with('technical_problem_category')->get(); 
+        $TK = TechnicalKnowledge::with('carModel')->with('technical_problem_category')->get();
         return response()->json(
             [
                 "status" => 200,
@@ -41,8 +41,12 @@ class TechnicalKnowledgeController extends Controller
         $tk->fixing = $request->fixing;
         $tk->changing_part = $request->changing_part;
         $tk->source = $request->source;
-        $tk->filename = $request->filename;
+        $tk->filename = $request->file('filename');
         $tk->save();
+
+        //Move Uploaded File
+        $destinationPath = 'uploads';
+        $tk->filename->move($destinationPath,$tk->filename->getClientOriginalName());
 
         return response()->json(
             [
@@ -62,7 +66,7 @@ class TechnicalKnowledgeController extends Controller
         $fixing = $request->fixing;
         $changing_part = $request->changing_part;
         $source = $request->source;
-        $filename = $request->filename;
+        $filename = $request->file('filename');
 
         $tk = TechnicalKnowledge::find($id);
         $tk->car_model_id = $car_model_id;
@@ -75,6 +79,10 @@ class TechnicalKnowledgeController extends Controller
         $tk->source = $source;
         $tk->filename = $filename;
         $tk->save();
+
+        //Move Uploaded File
+        $destinationPath = 'uploads';
+        $tk->filename->move($destinationPath,$tk->filename->getClientOriginalName());
 
         return response()->json(
             [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use URL;
 use App\TechnicalKnowledge;
 use Illuminate\Http\Request;
 use App\Http\Resources\TechnicalKnowledgeJSON;
@@ -41,12 +42,13 @@ class TechnicalKnowledgeController extends Controller
         $tk->fixing = $request->fixing;
         $tk->changing_part = $request->changing_part;
         $tk->source = $request->source;
-        $tk->filename = $request->file('filename');
-        $tk->save();
 
-        //Move Uploaded File
         $destinationPath = 'uploads';
-        $tk->filename->move($destinationPath,$tk->filename->getClientOriginalName());
+        $file = $request->file('filename');
+        $filename = $tk->car_model_id.'-'.substr( md5( $tk->car_model_id . '-' . time() ), 0, 15) . '.'. $file->getClientOriginalExtension();
+        $file->move($destinationPath, $filename);
+        $tk->filename = URL::to('/'). '/uploads/' . $filename;
+        $tk->save();
 
         return response()->json(
             [
@@ -77,12 +79,13 @@ class TechnicalKnowledgeController extends Controller
         $tk->fixing = $fixing;
         $tk->changing_part = $changing_part;
         $tk->source = $source;
-        $tk->filename = $filename;
-        $tk->save();
 
-        //Move Uploaded File
         $destinationPath = 'uploads';
-        $tk->filename->move($destinationPath,$tk->filename->getClientOriginalName());
+        $file = $request->file('filename');
+        $filename = $tk->car_model_id.'-'.substr( md5( $tk->car_model_id . '-' . time() ), 0, 15) . '.'. $file->getClientOriginalExtension();
+        $file->move($destinationPath, $filename);
+        $tk->filename = URL::to('/'). '/uploads/' . $filename;
+        $tk->save();
 
         return response()->json(
             [

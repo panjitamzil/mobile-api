@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\TechnicalProblemCategory;
 use Illuminate\Http\Request;
+use App\TechnicalProblemCategory;
+use App\Http\Resources\TechnicalProblemCategoryJSON as Builder;
 
 class TechnicalProblemCategoriesController extends Controller
 {
@@ -12,7 +13,7 @@ class TechnicalProblemCategoriesController extends Controller
         return response()->json(
             [
                 "status" => 200,
-                "data" => $TechnicalCategories
+                "data" => Builder::collection($TechnicalCategories)
             ] ,
             200
         );
@@ -23,7 +24,7 @@ class TechnicalProblemCategoriesController extends Controller
         return response()->json(
             [
                 "status" => 200,
-                "data" => $TechnicalCategory
+                "data" => new Builder($TechnicalCategory)
             ],
             200
         );

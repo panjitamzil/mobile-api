@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CarModel extends JsonResource
+class TechnologyKnowledgeCategoryJSON extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,8 @@ class CarModel extends JsonResource
       return [
         'id' => $this->id,
         'name' => $this->name,
-        'technical_knowladges' => $this->technical_knowladge,
+        'slug' => $this->slug,
+        'technologies' => $this->technologies,
         'created_at' => $this->created_at
       ];
     }

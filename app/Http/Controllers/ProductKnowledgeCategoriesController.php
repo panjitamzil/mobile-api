@@ -7,22 +7,23 @@ use Illuminate\Http\Request;
 use App\ProductKnowladgeCategory;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProductKnowledgeCollection;
+use App\Http\Resources\ProductKnowladgeCategoryJSON as Builder;
 
 class ProductKnowledgeCategoriesController extends Controller
 {
     public function index () {
-        $PKcategories = ProductKnowladgeCategory::all();
+        $PKcategories = ProductKnowladgeCategory::with('products')->get();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $PKcategories
+                "data" => Builder::collection($PKcategories)
             ] ,
             200
         );
     }
 
     public function view (Request $request) {
-        $PKcategory = ProductKnowladgeCategory::find($request->id);
+        $PKcategory = ProductKnowladgeCategory::with('products')->find($request->id);
         return response()->json(
             [
                 "status" => 200,

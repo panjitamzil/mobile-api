@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use URL;
 use App\ProductKnowladge;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductKnowledgeCollection;
-use App\Http\Resources\ProductKnowledge as ProductKnowledgeJSON;
+use App\Http\Resources\ProductKnowledge as Builder;
 
 
 class ProductKnowladgeController extends Controller
 {
     public function index () {
-        $PK = ProductKnowladge::with('carModel')->get();
+        $PK = ProductKnowladge::with(['carModel', 'product_knowlagde_category'])->get();
         return response()->json(
             [
                 "status" => 200,
-                "data" => ProductKnowledgeCollection::collection($PK)
+                "data" => Builder::collection($PK)
             ] ,
             200
         );
@@ -26,7 +27,7 @@ class ProductKnowladgeController extends Controller
         return response()->json(
             [
                 "status" => 200,
-                "data" => new ProductKnowledgeJSON($PK)
+                "data" => new Builder($PK)
             ],
             200
         );
@@ -36,12 +37,14 @@ class ProductKnowladgeController extends Controller
         $pk = new ProductKnowladge;
         $pk->car_model_id = $request->car_model_id;
         $pk->product_knowlagde_category_id = $request->product_knowlagde_category_id;
-        $pk->filename = $request->file('filename');
-        $pk->save();
 
-        //Move Uploaded File
         $destinationPath = 'uploads';
-        $pk->filename->move($destinationPath,$pk->filename->getClientOriginalName());
+        $file = $request->file('filename');
+        $filename = $pk->car_model_id.'-'.substr( md5( $pk->car_model_id . '-' . time() ), 0, 15) . '.'. $file->getClientOriginalExtension();
+        $file->move($destinationPath, $filename);
+
+        $pk->filename = URL::to('/'). '/uploads/' . $filename;
+        $pk->save();
 
         return response()->json(
             [
@@ -60,7 +63,13 @@ class ProductKnowladgeController extends Controller
         $pk = ProductKnowladge::find($id);
         $pk->car_model_id = $car_model_id;
         $pk->product_knowlagde_category_id = $product_knowlagde_category_id;
-        $pk->filename = $filename;
+
+        $destinationPath = 'uploads';
+        $file = $request->file('filename');
+        $filename = $pk->car_model_id.'-'.substr( md5( $pk->car_model_id . '-' . time() ), 0, 15) . '.'. $file->getClientOriginalExtension();
+        $file->move($destinationPath, $filename);
+
+        $pk->filename = URL::to('/'). '/uploads/' . $filename;
         $pk->save();
 
         //Move Uploaded File

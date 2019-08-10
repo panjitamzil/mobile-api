@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use URL;
 use App\TechnologyKnowledge;
 use Illuminate\Http\Request;
+use App\Http\Resources\TechnologyKnowledgeJSON as Builder;
 
 class TechnologyKnowledgeController extends Controller
 {
     public function index () {
-        $tk = TechnologyKnowledge::all();
+        $tk = TechnologyKnowledge::with('category')->get();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $tk
+                "data" => Builder::collection($tk)
             ] ,
             200
         );
@@ -23,7 +25,7 @@ class TechnologyKnowledgeController extends Controller
         return response()->json(
             [
                 "status" => 200,
-                "data" => $tk
+                "data" => new Builder($tk)
             ],
             200
         );
@@ -32,12 +34,14 @@ class TechnologyKnowledgeController extends Controller
     public function create (Request $request) {
         $tk = new TechnologyKnowledge;
         $tk->technology_knowledge_category_id = $request->technology_knowledge_category_id;
-        $tk->filename = $request->file('filename');
-        $tk->save();
 
-        //Move Uploaded File
         $destinationPath = 'uploads';
-        $tk->filename->move($destinationPath,$tk->filename->getClientOriginalName());
+        $file = $request->file('filename');
+        $filename = 123 .'-'.substr( md5( 123 . '-' . time() ), 0, 15) . '.'. $file->getClientOriginalExtension();
+        $file->move($destinationPath, $filename);
+
+        $tk->filename = URL::to('/'). '/uploads/' . $filename;
+        $tk->save();
 
         return response()->json(
             [
@@ -50,16 +54,18 @@ class TechnologyKnowledgeController extends Controller
 
     public function update (Request $request, $id) {
         $technology_knowledge_category_id = $request->technology_knowledge_category_id;
-        $filename = $request->file('filename');
 
         $tk = TechnologyKnowledge::find($id);
         $tk->technology_knowledge_category_id = $technology_knowledge_category_id;
-        $tk->filename = $filename;
-        $tk->save();
 
-        //Move Uploaded File
         $destinationPath = 'uploads';
-        $tk->filename->move($destinationPath,$tk->filename->getClientOriginalName());
+
+        $file = $request->file('filename');
+        $filename = 123 .'-'.substr( md5( 123 . '-' . time() ), 0, 15) . '.'. $file->getClientOriginalExtension();
+        $file->move($destinationPath, $filename);
+
+        $tk->filename = URL::to('/'). '/uploads/' . $filename;
+        $tk->save();
 
         return response()->json(
             [

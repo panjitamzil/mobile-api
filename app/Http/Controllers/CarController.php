@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\CarModel;
+use App\CarModel; 
 use Illuminate\Http\Request;
+use App\Http\Resources\CarModel as CarModelResource;
 
 class CarController extends Controller
 {
     public function index () {
-        $cars = CarModel::all();
+        $cars = CarModel::with('technical_knowladge')->get();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $cars
+                "data" => CarModelResource::collection($cars)
             ] ,
             200
         );
@@ -23,7 +24,7 @@ class CarController extends Controller
         return response()->json(
             [
                 "status" => 200,
-                "data" => $car
+                "data" => new CarModelResource($car)
             ],
             200
         );
@@ -65,10 +66,10 @@ class CarController extends Controller
 
         return response()->json(
             [
-                "status" => 204,
+                "status" => 200,
                 "data" => "Data successfully deleted"
             ],
-            204
+            200
         );
     }
 }

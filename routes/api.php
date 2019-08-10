@@ -16,14 +16,33 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-// cars
+
+// [DONE]
+Route::get('/ping', function (Request $request) {
+  return response()->json(
+    [
+        "status" => 200,
+        "data" => 'PONG'
+    ],
+    200
+  );
+});
+
+Route::post('login', 'API\UserController@login');
+Route::post('register', 'API\UserController@register');
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::post('details', 'API\UserController@details');
+});
+
+// [DONE]
 Route::get('cars','CarController@index')->name('api.car.index');
 Route::get('car/{id}','CarController@view')->name('api.car.view');
 Route::post('car','CarController@create')->name('api.car.create');
 Route::put('car/{id}','CarController@update')->name('api.car.update');
 Route::delete('car/{id}','CarController@delete')->name('api.car.delete');
 
-// product knowledge categories
+// [DONE]
 Route::get('product-knowledge-categories','ProductKnowledgeCategoriesController@index')->name('api.productKnowledgeCategories.index');
 Route::get('product-knowledge-category/{id}','ProductKnowledgeCategoriesController@view')->name('api.productKnowledgeCategories.view');
 Route::get('product-knowledge-category/{id}/products','ProductKnowledgeCategoriesController@view_products')->name('api.productKnowledgeCategories.view.product');
@@ -31,26 +50,28 @@ Route::post('product-knowledge-category','ProductKnowledgeCategoriesController@c
 Route::put('product-knowledge-category/{id}','ProductKnowledgeCategoriesController@update')->name('api.productKnowledgeCategories.update');
 Route::delete('product-knowledge-category/{id}','ProductKnowledgeCategoriesController@delete')->name('api.productKnowledgeCategories.delete');
 
-// technical problem categories
+// [DONE]
 Route::get('technical-problem-categories','TechnicalProblemCategoriesController@index')->name('api.technicalProblemCategories.index');
 Route::get('technical-problem-category/{id}','TechnicalProblemCategoriesController@view')->name('api.technicalProblemCategories.view');
 Route::post('technical-problem-category','TechnicalProblemCategoriesController@create')->name('api.technicalProblemCategories.create');
 Route::put('technical-problem-category/{id}','TechnicalProblemCategoriesController@update')->name('api.technicalProblemCategories.update');
 Route::delete('technical-problem-category/{id}','TechnicalProblemCategoriesController@delete')->name('api.technicalProblemCategories.delete');
 
-// technology knowledge categories
+// [DONE]
 Route::get('technology-knowledge-categories','TechnologyKnowledgeCategoriesController@index')->name('api.technologyKnowledgeCategories.index');
 Route::get('technology-knowledge-category/{id}','TechnologyKnowledgeCategoriesController@view')->name('api.technologyKnowledgeCategories.view');
 Route::post('technology-knowledge-category','TechnologyKnowledgeCategoriesController@create')->name('api.technologyKnowledgeCategories.create');
 Route::put('technology-knowledge-category/{id}','TechnologyKnowledgeCategoriesController@update')->name('api.technologyKnowledgeCategories.update');
 Route::delete('technology-knowledge-category/{id}','TechnologyKnowledgeCategoriesController@delete')->name('api.technologyKnowledgeCategories.delete');
 
+// [DONE]
 Route::get('product-knowledges','ProductKnowladgeController@index')->name('api.ProductKnowladgeController.index');
 Route::get('product-knowledge/{id}','ProductKnowladgeController@view')->name('api.ProductKnowladgeController.view');
 Route::post('product-knowledge','ProductKnowladgeController@create')->name('api.ProductKnowladgeController.create');
 Route::put('product-knowledge/{id}','ProductKnowladgeController@update')->name('api.ProductKnowladgeController.update');
 Route::delete('product-knowledge/{id}','ProductKnowladgeController@delete')->name('api.ProductKnowladgeController.delete');
 
+// [DONE]
 Route::get('technology-knowledges','TechnologyKnowledgeController@index')->name('api.TechnologyKnowledgeController.index');
 Route::get('technology-knowledge/{id}','TechnologyKnowledgeController@view')->name('api.TechnologyKnowledgeController.view');
 Route::post('technology-knowledge','TechnologyKnowledgeController@create')->name('api.TechnologyKnowledgeController.create');

@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\TechnologyKnowledgeCategory;
 use Illuminate\Http\Request;
+use App\TechnologyKnowledgeCategory;
+use App\Http\Resources\TechnologyKnowledgeCategoryJSON as Builder;
 
 class TechnologyKnowledgeCategoriesController extends Controller
 {
     public function index () {
-        $TechnologyCategories = TechnologyKnowledgeCategory::all();
+        $TechnologyCategories = TechnologyKnowledgeCategory::with('technologies')->get();
         return response()->json(
             [
                 "status" => 200,
-                "data" => $TechnologyCategories
+                "data" => Builder::collection($TechnologyCategories)
             ] ,
             200
         );
@@ -23,7 +24,7 @@ class TechnologyKnowledgeCategoriesController extends Controller
         return response()->json(
             [
                 "status" => 200,
-                "data" => $TechnologyCategory
+                "data" => new Builder($TechnologyCategory)
             ],
             200
         );

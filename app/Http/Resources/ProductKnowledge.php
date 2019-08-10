@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Resources;
-use App\Http\Resources\CarModel;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductKnowledge extends JsonResource
@@ -16,10 +15,10 @@ class ProductKnowledge extends JsonResource
     {
         return [
           'id' => $this->id,
-          'car_modal' => new CarModel($this->carModel),
           'filename' => $this->filename,
-          'created_at' => $this->created_at,
-          'updated_at' => $this->updated_at,
+          'car_modal' => $this->carModel,
+          'category' => $this->product_knowlagde_category,
+          'created_at' => $this->created_at
         ];
     }
 }

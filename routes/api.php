@@ -109,3 +109,5 @@ Route::put('diagnose/{id}','DiagnoseDataController@update')->name('api.DiagnoseD
 Route::delete('diagnose/{id}','DiagnoseDataController@delete')->name('api.DiagnoseDataController.delete');
 
 Route::get('/micro/component-complaint','MicroController@componentComplaint');
+
+Route::post('/upload', 'UploaderController@index')->name('api.UploaderController.index');
